@@ -1,18 +1,16 @@
 import random
 from abc import abstractmethod
 
-import pygame
-
 from .combatente import Combatente
-from .configuracoes import COR_INIMIGO, VELOCIDADE_INIMIGO
+from .configuracoes import VELOCIDADE_INIMIGO
 
 
 class InimigoBot(Combatente):
     DIRECOES = [(-1, 0), (1, 0), (0, -1), (0, 1)]
     INTERVALO_DECISAO = 1.0
 
-    def __init__(self, nome, x, y):
-        super().__init__(nome, x, y, VELOCIDADE_INIMIGO)
+    def __init__(self, nome, x, y, caminho_sprite):
+        super().__init__(nome, x, y, VELOCIDADE_INIMIGO, caminho_sprite)
         self._direcao_x = 0
         self._direcao_y = 0
         self._tempo_desde_decisao = self.INTERVALO_DECISAO
@@ -34,6 +32,4 @@ class InimigoBot(Combatente):
         if not moveu:
             self.tomar_decisao()
 
-    def desenhar(self, tela):
-        pygame.draw.rect(tela, COR_INIMIGO, self.retangulo)
-
+        self._atualizar_animacao(dt)

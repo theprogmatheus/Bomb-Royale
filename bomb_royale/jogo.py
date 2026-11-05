@@ -3,6 +3,7 @@ import pygame
 from .configuracoes import (
     ALTURA_TELA,
     COLUNAS,
+    DT_MAXIMO,
     FPS,
     LARGURA_TELA,
     LINHAS,
@@ -60,7 +61,7 @@ class Jogo:
 
     def loop_principal(self):
         while self._rodando:
-            dt = self._relogio.tick(FPS) / 1000
+            dt = min(self._relogio.tick(FPS) / 1000, DT_MAXIMO)
             self._processar_eventos()
             self._atualizar(dt)
             self._desenhar()

@@ -1,11 +1,21 @@
+import pygame
+
 from .bloco import Bloco
 from .colisor import Colisor
-from .configuracoes import COLUNAS, COR_FUNDO, LINHAS, TAMANHO_CELULA
+from .configuracoes import (
+    ALTURA_TELA,
+    COLUNAS,
+    IMAGEM_FUNDO,
+    LARGURA_TELA,
+    LINHAS,
+    TAMANHO_CELULA,
+)
 
 
 class Fase:
     def __init__(self):
         self._entidades = []
+        self._fundo = self._carregar_fundo()
         self._criar_arena()
 
     @property
@@ -15,6 +25,15 @@ class Fase:
     @property
     def blocos(self):
         return [e for e in self._entidades if isinstance(e, Bloco)]
+
+    def _carregar_fundo(self):
+        imagem = pygame.image.load(IMAGEM_FUNDO).convert()
+        escala = max(LARGURA_TELA / imagem.get_width(), ALTURA_TELA / imagem.get_height())
+        novo_tamanho = (int(imagem.get_width() * escala) + 1, int(imagem.get_height() * escala) + 1)
+        imagem = pygame.transform.smoothscale(imagem, novo_tamanho)
+        recorte = pygame.Rect(0, 0, LARGURA_TELA, ALTURA_TELA)
+        recorte.center = imagem.get_rect().center
+        return imagem.subsurface(recorte).copy()
 
     def _criar_arena(self):
         for linha in range(LINHAS):
@@ -49,7 +68,6 @@ class Fase:
         self._entidades = [e for e in self._entidades if e.ativo]
 
     def desenhar(self, tela):
-        tela.fill(COR_FUNDO)
-        for entidade in self._entidades:
+        tela.blit(self._fundo, (0, 0))
+        for entidade in sorted(self._entidades, key=lambda e: e.retangulo.bottom):
             entidade.desenhar(tela)
-
