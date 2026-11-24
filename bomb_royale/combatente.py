@@ -116,5 +116,5 @@ class Combatente(Entidade):
         tela.blit(quadro, posicao)
 
     @abstractmethod
-    def usar_habilidade(self):
+    def usar_habilidade(self, fase):
         pass

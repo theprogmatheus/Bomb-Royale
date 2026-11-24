@@ -24,7 +24,7 @@ class Jogador(Combatente):
         elif teclas[pygame.K_s] or teclas[pygame.K_DOWN]:
             self._direcao_y = 1
 
-    def usar_habilidade(self):
+    def usar_habilidade(self, fase):
         pass
 
     def atualizar(self, dt, fase):

@@ -6,8 +6,8 @@ class BotBuilder(InimigoBot):
     def __init__(self, x, y):
         super().__init__("BotBuilder", x, y, SPRITE_BOT_BUILDER)
 
-    def tomar_decisao(self):
+    def tomar_decisao(self, fase):
         self.escolher_direcao_aleatoria()
 
-    def usar_habilidade(self):
+    def usar_habilidade(self, fase):
         pass
