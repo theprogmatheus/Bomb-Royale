@@ -24,6 +24,10 @@ PASTA_ASSETS = Path(__file__).resolve().parent.parent / "assets"
 IMAGEM_FUNDO = PASTA_ASSETS / "background_grass.jpeg"
 SPRITE_JOGADOR = PASTA_ASSETS / "player_blue.jpeg"
 SPRITE_BOT_BUILDER = PASTA_ASSETS / "player_red.jpeg"
+SPRITE_BOT_KICKER = PASTA_ASSETS / "player_yellow.jpeg"
+SPRITE_BOT_SMOKER = PASTA_ASSETS / "player_black.jpeg"
+SPRITE_BOT_JUMPER = PASTA_ASSETS / "player_white.jpeg"
+SPRITE_BOT_ANGEL = PASTA_ASSETS / "player_white.jpeg"
 
 LINHAS_SPRITE = 3
 COLUNAS_SPRITE = 6

@@ -16,7 +16,7 @@ class InimigoBot(Combatente):
         self._tempo_desde_decisao = self.INTERVALO_DECISAO
 
     @abstractmethod
-    def tomar_decisao(self):
+    def tomar_decisao(self, fase):
         pass
 
     def escolher_direcao_aleatoria(self):
@@ -26,10 +26,10 @@ class InimigoBot(Combatente):
     def atualizar(self, dt, fase):
         self._tempo_desde_decisao += dt
         if self._tempo_desde_decisao >= self.INTERVALO_DECISAO:
-            self.tomar_decisao()
+            self.tomar_decisao(fase)
 
         moveu = self.mover(self._direcao_x, self._direcao_y, dt, fase)
         if not moveu:
-            self.tomar_decisao()
+            self.tomar_decisao(fase)
 
         self._atualizar_animacao(dt)
