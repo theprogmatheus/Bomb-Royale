@@ -1,9 +1,11 @@
 from .bot_builder import BotBuilder
+from .bot_kicker import BotKicker
 
 
 class FabricaInimigos:
     TIPOS = {
         "builder": BotBuilder,
+        "kicker": BotKicker,
     }
 
     @staticmethod

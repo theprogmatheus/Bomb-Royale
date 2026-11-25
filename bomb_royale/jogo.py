@@ -25,7 +25,8 @@ class Jogo:
         self._fase = Fase()
         self._jogador = self._criar_jogador()
         self._fase.adicionar_entidade(self._jogador)
-        self._fase.adicionar_entidade(self._criar_inimigo())
+        self._fase.adicionar_entidade(self._criar_inimigo("builder", COLUNAS -2, LINHAS - 2))
+        self._fase.adicionar_entidade(self._criar_inimigo("kicker", COLUNAS -2, 1))
 
     @property
     def jogador(self):
@@ -39,11 +40,11 @@ class Jogo:
         x, y = self._fase.posicao_na_celula(1, 1, TAMANHO_COMBATENTE, TAMANHO_COMBATENTE)
         return Jogador(x, y)
 
-    def _criar_inimigo(self):
+    def _criar_inimigo(self, tipo, coluna, linha):
         x, y = self._fase.posicao_na_celula(
-            COLUNAS - 2, LINHAS - 2, TAMANHO_COMBATENTE, TAMANHO_COMBATENTE
+            coluna, linha, TAMANHO_COMBATENTE, TAMANHO_COMBATENTE
         )
-        return FabricaInimigos.criar("builder", x, y)
+        return FabricaInimigos.criar(tipo, x, y)
 
     def _processar_eventos(self):
         for evento in pygame.event.get():
