@@ -10,7 +10,7 @@ class Jogador(Combatente):
         self._direcao_x = 0
         self._direcao_y = 0
 
-    def processar_input(self):
+    def processar_input(self, fase):
         teclas = pygame.key.get_pressed()
         self._direcao_x = 0
         self._direcao_y = 0
@@ -23,11 +23,16 @@ class Jogador(Combatente):
             self._direcao_y = -1
         elif teclas[pygame.K_s] or teclas[pygame.K_DOWN]:
             self._direcao_y = 1
+            
+        elif teclas[pygame.K_SPACE]:
+            self.arma.disparar(self, fase)
+        elif teclas[pygame.K_e]:
+            self.usar_habilidade(fase)
 
     def usar_habilidade(self, fase):
         pass
 
     def atualizar(self, dt, fase):
-        self.processar_input()
+        self.processar_input(fase)
         self.mover(self._direcao_x, self._direcao_y, dt, fase)
         self._atualizar_animacao(dt)

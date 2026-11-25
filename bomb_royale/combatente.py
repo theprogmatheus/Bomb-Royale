@@ -4,6 +4,7 @@ from .animacao import Animacao
 from .configuracoes import TAMANHO_COMBATENTE, TOLERANCIA_QUINA, VIDA_INICIAL
 from .entidade import Entidade
 from .spritesheet import SpriteSheet
+from .arma_bomba import ArmaBomba
 
 
 class Combatente(Entidade):
@@ -19,6 +20,7 @@ class Combatente(Entidade):
         self._animacoes = self._criar_animacoes(caminho_sprite)
         self._direcao_visual = "baixo"
         self._movendo = False
+        self._arma = ArmaBomba(3)
 
     @property
     def nome(self):
@@ -31,6 +33,10 @@ class Combatente(Entidade):
     @property
     def vida(self):
         return self._vida
+    
+    @property
+    def arma(self):
+        return self._arma
 
     def _criar_animacoes(self, caminho_sprite):
         sprite_sheet = SpriteSheet(caminho_sprite)
