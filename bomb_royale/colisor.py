@@ -2,6 +2,7 @@ from .configuracoes import TAMANHO_CELULA
 
 
 class Colisor:
+    
     @staticmethod
     def verificar(a, b):
         return a.retangulo.colliderect(b.retangulo)

@@ -28,6 +28,7 @@ SPRITE_BOT_KICKER = PASTA_ASSETS / "player_yellow.jpeg"
 SPRITE_BOT_SMOKER = PASTA_ASSETS / "player_black.jpeg"
 SPRITE_BOT_JUMPER = PASTA_ASSETS / "player_white.jpeg"
 SPRITE_BOT_ANGEL = PASTA_ASSETS / "player_white.jpeg"
+SPRITE_ENTITY_BOMB = PASTA_ASSETS / "bomb.jpeg"
 
 LINHAS_SPRITE = 3
 COLUNAS_SPRITE = 6
