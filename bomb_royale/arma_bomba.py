@@ -1,5 +1,6 @@
 from .arma import Arma
 from .bomba import Bomba
+from .colisor import Colisor
 
 class ArmaBomba(Arma):
     
@@ -7,7 +8,7 @@ class ArmaBomba(Arma):
         self.__raio = None
         self.raio = raio
         
-        super().__init__(cooldown=0, municao=1)
+        super().__init__(cooldown=0, municao=3)
     
     @property
     def raio(self):
@@ -25,9 +26,19 @@ class ArmaBomba(Arma):
         
         # TODO: Verificar se já existe uma bomba posicionada nesse quadrado
         
+        proibidoColocarBomba = False
+        
+        coluna, linha = Colisor.obter_celula_grid(*combatente.retangulo.center)        
+        bombas = [entidade for entidade in fase.entidades if isinstance(entidade, Bomba)]
+        for bomba in bombas:
+            if bomba.celula == (coluna, linha):
+                proibidoColocarBomba = True
+                break
+        
+        if (proibidoColocarBomba):
+            return
+        
         self.municao -= 1
         
-        x = combatente.x
-        y = combatente.y        
-        bomba = Bomba(self, combatente, fase, x, y, 3)
+        bomba = Bomba(self, combatente, fase, combatente.x, combatente.y, 3)
         fase.adicionar_entidade(bomba)

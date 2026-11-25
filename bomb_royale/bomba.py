@@ -24,7 +24,11 @@ class Bomba(Entidade):
         self.__animacoes = {
             "normal": Animacao(self.__spritesheet.obter_linha(0)[:3], 0.15),
             "boom": Animacao(self.__spritesheet.obter_linha(0)[3:], 0.15)
-        } 
+        }
+   
+    @property
+    def celula(self):
+        return Colisor.obter_celula_grid(*self.retangulo.center)
     
     def _explodir(self, fase):
         self.__arma.municao += 1
