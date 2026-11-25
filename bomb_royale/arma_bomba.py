@@ -24,8 +24,6 @@ class ArmaBomba(Arma):
         if (self.municao < 1):
             return
         
-        # TODO: Verificar se já existe uma bomba posicionada nesse quadrado
-        
         proibidoColocarBomba = False
         
         coluna, linha = Colisor.obter_celula_grid(*combatente.retangulo.center)        
@@ -40,5 +38,6 @@ class ArmaBomba(Arma):
         
         self.municao -= 1
         
-        bomba = Bomba(self, combatente, fase, combatente.x, combatente.y, 3)
+        x, y = combatente.retangulo.center
+        bomba = Bomba(self, combatente, fase, x, y, 3)
         fase.adicionar_entidade(bomba)

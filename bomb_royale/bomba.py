@@ -10,6 +10,8 @@ class Bomba(Entidade):
     LARGURA = 36
     ALTURA = 36
     
+    QUADROS = None
+    
     def __init__(self, arma, combatente, fase, x, y, delay):
         
         coluna, linha = Colisor.obter_celula_grid(x,y)
@@ -20,11 +22,16 @@ class Bomba(Entidade):
         self.__combatente = combatente
         self.__fase = fase
         self.__delay = delay
-        self.__spritesheet = SpriteSheet(SPRITE_ENTITY_BOMB, 1, 6)
         self.__animacoes = {
-            "normal": Animacao(self.__spritesheet.obter_linha(0)[:3], 0.15),
-            "boom": Animacao(self.__spritesheet.obter_linha(0)[3:], 0.15)
+            "normal": Animacao(self.carregar_quadros()[:3], 0.15),
+            "boom": Animacao(self.carregar_quadros()[3:], 0.15)
         }
+        
+    @classmethod
+    def carregar_quadros(cls):
+        if (cls.QUADROS is None):
+            cls.QUADROS = SpriteSheet(SPRITE_ENTITY_BOMB, 1, 6).obter_linha(0)
+        return cls.QUADROS
    
     @property
     def celula(self):
