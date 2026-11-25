@@ -21,6 +21,7 @@ class Combatente(Entidade):
         self._direcao_visual = "baixo"
         self._movendo = False
         self._arma = ArmaBomba(3)
+        self._pontuacao = 0
 
     @property
     def nome(self):
@@ -37,6 +38,20 @@ class Combatente(Entidade):
     @property
     def arma(self):
         return self._arma
+    
+    @arma.setter
+    def arma(self, nova_arma):
+        self._arma = nova_arma
+        
+    @property
+    def pontuacao(self):
+        return self._pontuacao
+    
+    @pontuacao.setter
+    def pontuacao(self, nova_pontuacao):
+        if (nova_pontuacao < 0):
+            nova_pontuacao = 0
+        self._pontuacao = nova_pontuacao
 
     def _criar_animacoes(self, caminho_sprite):
         sprite_sheet = SpriteSheet(caminho_sprite)

@@ -37,7 +37,6 @@ class ArmaBomba(Arma):
             return
         
         self.municao -= 1
-        
-        x, y = combatente.retangulo.center
-        bomba = Bomba(self, combatente, fase, x, y, 3)
-        fase.adicionar_entidade(bomba)
+                
+        x, y = fase.posicao_na_celula(coluna, linha, Bomba.LARGURA, Bomba.ALTURA)
+        fase.adicionar_entidade(Bomba(self, combatente, fase, x, y, 3))

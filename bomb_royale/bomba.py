@@ -13,11 +13,7 @@ class Bomba(Entidade):
     QUADROS = None
     
     def __init__(self, arma, combatente, fase, x, y, delay):
-        
-        coluna, linha = Colisor.obter_celula_grid(x,y)
-        novoX, novoY = fase.posicao_na_celula(coluna, linha, self.LARGURA, self.ALTURA)
-        
-        super().__init__(novoX, novoY, self.LARGURA, self.ALTURA)
+        super().__init__(x, y, self.LARGURA, self.ALTURA)
         self.__arma = arma
         self.__combatente = combatente
         self.__fase = fase
