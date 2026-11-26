@@ -62,9 +62,7 @@ class Jogo:
         return Jogador(x, y)
 
     def _criar_inimigo(self):
-        x, y = self._fase.posicao_na_celula(
-            COLUNAS - 2, LINHAS - 2, TAMANHO_COMBATENTE, TAMANHO_COMBATENTE
-        )
+        x, y = Colisor.centro_da_celula(COLUNAS - 2, LINHAS - 2)
         return FabricaInimigos.criar("builder", x, y)
 
     def _processar_eventos(self):
