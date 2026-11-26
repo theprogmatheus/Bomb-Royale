@@ -33,7 +33,7 @@ class Colisor:
         return not Colisor.eh_caminho(coluna, linha)
 
     @staticmethod
-    def centro_da_celula(self, coluna, linha):
+    def centro_da_celula(coluna, linha):
         x = coluna * TAMANHO_CELULA + (TAMANHO_CELULA / 2)
         y = linha * TAMANHO_CELULA + (TAMANHO_CELULA / 2)
         return x, y

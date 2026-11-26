@@ -38,7 +38,7 @@ class Jogo:
         return self._fase
 
     def _criar_jogador(self):
-        x, y = Colisor.centro_da_celula(self, 1, 1)
+        x, y = Colisor.centro_da_celula(1, 1)
         return Jogador(x, y)
 
     def _criar_inimigo(self):
