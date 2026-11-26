@@ -6,11 +6,11 @@
 - **Arquivos EXISTENTES (só Matheus edita):** `combatente.py`, `fase.py`, `jogador.py`, `bot_builder.py`
 - **Requisitos de POO cobertos:** Composição (`Combatente` contém `Arma`), Polimorfismo (`Bomba` e `Explosao` herdando de `Entidade` e rodando no mesmo laço da `Fase`).
 - **Checklist Etapa 3 (até 26/11):**
-  - [ ] Subir o **Passo 0 (Contrato)** na `main` e adicionar os 3 colegas como Collaborators.
+  - [OK] Subir o **Passo 0 (Contrato)** na `main` e adicionar os 3 colegas como Collaborators.
   - [ ] Criar `Bomba(Entidade)` (timer até explodir, desenha bomba na tela) e `Explosao(Entidade)` (timer curto, desenha explosão em cruz).
-  - [ ] Criar `ArmaBomba(Arma)` que instancia `Bomba` na posição do combatente e adiciona na `fase`.
-  - [ ] Adicionar composição `self._arma` (com `@property` e setter) e atributo `_pontuacao` no `Combatente`.
-  - [ ] Conectar tecla `Espaço` no `Jogador` para disparar arma e tecla `E` para `usar_habilidade(fase)`.
+  - [OK] Criar `ArmaBomba(Arma)` que instancia `Bomba` na posição do combatente e adiciona na `fase`.
+  - [OK] Adicionar composição `self._arma` (com `@property` e setter) e atributo `_pontuacao` no `Combatente`.
+  - [OK] Conectar tecla `Espaço` no `Jogador` para disparar arma e tecla `E` para `usar_habilidade(fase)`.
   - [ ] Gerar blocos destrutíveis (`Bloco(x, y, destrutivel=True)`) aleatoriamente na `Fase` (mantendo cantos de spawn livres).
 - **Checklist Mostra Final (até 02/12):**
   - [ ] Explosão destrói blocos destrutíveis, aplica dano em combatentes e soma pontos para o autor da bomba.

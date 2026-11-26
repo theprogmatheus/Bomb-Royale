@@ -48,6 +48,9 @@ class SpriteSheet:
                 regioes[(linha, coluna)] = area
         return regioes
 
+    def _calcular_posicao(self, recorte, quadro):
+        return recorte.get_rect(midbottom=quadro.get_rect().midbottom)
+
     def _recortar_quadros(self, imagem, regioes):
         maior_largura = max(area.width for area in regioes.values())
         maior_altura = max(area.height for area in regioes.values())
@@ -64,9 +67,8 @@ class SpriteSheet:
                 nova_altura = int(area.height * escala)
                 recorte = pygame.transform.smoothscale(recorte, (nova_largura, nova_altura))
                 quadro = pygame.Surface((largura_final, ALTURA_SPRITE), pygame.SRCALPHA)
-                posicao = recorte.get_rect(midbottom=quadro.get_rect().midbottom)
+                posicao = self._calcular_posicao(recorte, quadro)
                 quadro.blit(recorte, posicao)
                 quadros_da_linha.append(quadro)
             quadros.append(quadros_da_linha)
         return quadros
-
