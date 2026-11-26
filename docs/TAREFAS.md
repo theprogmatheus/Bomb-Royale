@@ -7,7 +7,7 @@
 - **Requisitos de POO cobertos:** Composição (`Combatente` contém `Arma`), Polimorfismo (`Bomba` e `Explosao` herdando de `Entidade` e rodando no mesmo laço da `Fase`).
 - **Checklist Etapa 3 (até 26/11):**
   - [OK] Subir o **Passo 0 (Contrato)** na `main` e adicionar os 3 colegas como Collaborators.
-  - [ ] Criar `Bomba(Entidade)` (timer até explodir, desenha bomba na tela) e `Explosao(Entidade)` (timer curto, desenha explosão em cruz).
+  - [OK] Criar `Bomba(Entidade)` (timer até explodir, desenha bomba na tela) e `Explosao(Entidade)` (timer curto, desenha explosão em cruz).
   - [OK] Criar `ArmaBomba(Arma)` que instancia `Bomba` na posição do combatente e adiciona na `fase`.
   - [OK] Adicionar composição `self._arma` (com `@property` e setter) e atributo `_pontuacao` no `Combatente`.
   - [OK] Conectar tecla `Espaço` no `Jogador` para disparar arma e tecla `E` para `usar_habilidade(fase)`.
