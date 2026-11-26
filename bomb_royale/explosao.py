@@ -1,6 +1,11 @@
 from .entidade import Entidade
-from .configuracoes import SPRITE_ENTITY_EXPLOSION
+from .configuracoes import (
+    SPRITE_ENTITY_EXPLOSION,
+    TAMANHO_CELULA
+)
 from .spritesheet import SpriteSheet
+from .colisor import Colisor
+from .bloco import Bloco
 
 class Explosao(Entidade):
 
@@ -12,6 +17,7 @@ class Explosao(Entidade):
         super().__init__(x, y, self.LARGURA, self.ALTURA)
         self.__bomba = bomba
         self.__raio = raio
+        self.__fase = None
     
     @classmethod
     def carregar_quadros(cls):
@@ -26,7 +32,33 @@ class Explosao(Entidade):
         return cls.QUADROS
 
     def atualizar(self, dt, fase):
-        pass
+        if (self.__fase is None):
+            self.__fase = fase
 
     def desenhar(self, tela):
+        # Exigir fase para trabalhar
+        if (self.__fase is None):
+            return
+
+        coluna, linha = Colisor.obter_celula_grid(self.x, self.y)
+
+        lados = {
+            (coluna-1, linha): None,
+            (coluna+1, linha): None,
+            (coluna, linha+1): None,
+            (coluna, linha-1): None
+        }
+
+        for entidade in self.__fase.entidades():
+            if (isinstance(entidade, Bloco) and not entidade.destrutivel):
+                coluna_e, linha_e = Colisor.obter_celula_grid(entidade.x, entidade.y)
+                if (coluna_e, linha_e) in lados:
+                    lados[(coluna_e, linha_e)] = entidade
+                    
+
+        # Continuar a partir daqui...
+
+
+
+
         pass

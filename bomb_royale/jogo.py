@@ -25,7 +25,7 @@ class Jogo:
         self._fase = Fase()
         self._jogador = self._criar_jogador()
         self._fase.adicionar_entidade(self._jogador)
-        self._fase.adicionar_entidade(self._criar_inimigo())
+        # self._fase.adicionar_entidade(self._criar_inimigo())
 
     @property
     def jogador(self):
