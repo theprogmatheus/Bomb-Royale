@@ -4,6 +4,7 @@ from .colisor import Colisor
 from .combatente import Combatente
 from .configuracoes import TAMANHO_CELULA
 from .entidade import Entidade
+from .arma_canhao import ArmaCanhao
 
 
 class CanhaoPickup(Entidade):
@@ -21,7 +22,7 @@ class CanhaoPickup(Entidade):
 
     def _coletar(self, combatente):
         print("Coletado por", combatente.nome)
-        # combatente.arma = ArmaCanhao() # SÓ DEPOIS DO MERGE COM A PARTE DO MATHEUS
+        combatente.arma = ArmaCanhao() # SÓ DEPOIS DO MERGE COM A PARTE DO MATHEUS
         self.desativar()
 
     def desenhar(self, tela):
