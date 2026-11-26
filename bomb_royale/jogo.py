@@ -1,5 +1,7 @@
 import pygame
 
+from bomb_royale.colisor import Colisor
+
 from .combatente import Combatente
 from .configuracoes import (
     ALTURA_TELA,
@@ -36,6 +38,7 @@ class Jogo:
         self._fase = Fase()
         self._jogador = self._criar_jogador()
         self._fase.adicionar_entidade(self._jogador)
+        # self._fase.adicionar_entidade(self._criar_inimigo())
         self._placar.registrar_combatente(self._jogador.nome)
         inimigo = self._criar_inimigo()
         self._fase.adicionar_entidade(inimigo)
@@ -55,7 +58,7 @@ class Jogo:
         return self._placar
 
     def _criar_jogador(self):
-        x, y = self._fase.posicao_na_celula(1, 1, TAMANHO_COMBATENTE, TAMANHO_COMBATENTE)
+        x, y = Colisor.centro_da_celula(1, 1)
         return Jogador(x, y)
 
     def _criar_inimigo(self):
