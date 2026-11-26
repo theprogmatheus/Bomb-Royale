@@ -23,7 +23,7 @@ class Combatente(Entidade):
         self._animacoes = self._criar_animacoes(caminho_sprite)
         self._direcao_visual = "baixo"
         self._movendo = False
-        self._arma = ArmaBomba(5)
+        self._arma = ArmaBomba(2)
         self._pontuacao = 0
 
     @property

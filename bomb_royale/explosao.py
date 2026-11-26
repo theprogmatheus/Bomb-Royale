@@ -59,16 +59,22 @@ class Explosao(Entidade):
             cls.QUADROS["ponta_baixo"] = [pygame.transform.rotate(quadro, 270) for quadro in quadros_ponta]
 
         return cls.QUADROS
-    
+    def __checar_lifetime(self, dt, fase):     
+        self.__lifetime -= dt
+        if (self.__lifetime <= 0):
+            fase.remover_entidade(self)
+        
     def atualizar(self, dt, fase):
         if (not self.__celulas):
             origem_coluna, origem_linha = Colisor.obter_celula_grid(self.x, self.y)
             self.__celulas.append((origem_coluna, origem_linha, "centro", -1))
-        
+            
+            # Set de entidades que foram pego no raio da explosão...
+            entidades = set(fase.obter_entidades(origem_coluna, origem_linha))
             for direcao in range(4): # 0 = esquerda, 1 = cima, 2 = direita, 3 = baixo
                 for i in range(1, self.__raio + 1):
                     coluna, linha = self.__calcular_direcao(origem_coluna, origem_linha, direcao, i)
-                
+                    entidades.update(fase.obter_entidades(coluna, linha))
                     if (Colisor.eh_parede(coluna, linha)):
                         # Corrige o anterior para ponta se não for o centro
                         if (i > 1):
@@ -79,15 +85,17 @@ class Explosao(Entidade):
                     if i == self.__raio:
                         tipo = "ponta"
                     self.__celulas.append((coluna, linha, tipo, direcao))
-        
+
+            for entidade in entidades:
+                if hasattr(entidade, "receber_dano"):
+                    entidade.receber_dano(1)
+                
         for celula in self.__celulas:
             coluna, linha, tipo, direcao = celula
             animacao = self.__animacoes[(tipo, direcao)]
             animacao.atualizar(dt)
         
-        self.__lifetime -= dt
-        if (self.__lifetime <= 0):
-            fase.remover_entidade(self)
+        self.__checar_lifetime(dt, fase)
     
     def __calcular_direcao(self, coluna, linha, direcao, i):
         if direcao == 0:  # esquerda

@@ -59,10 +59,14 @@ class Fase:
     def remover_entidade(self, entidade):
         self._entidades.remove(entidade)
 
-    # TODO: Implementar a função para obeter a entidade que ocupa a célula
-    def obter_entidades(self, linha, coluna):
-        pass
-
+    # Função para obeter as entidades que ocupa a célula
+    def obter_entidades(self, coluna, linha):
+        entidades = []
+        for entidade in self.entidades:
+            coluna_e, linha_e = Colisor.obter_celula_grid(entidade.x, entidade.y)
+            if (coluna_e == coluna and linha_e == linha):
+                entidades.append(entidade)
+        return entidades
 
     def colide_com_bloco(self, entidade):
         return any(Colisor.verificar(entidade, bloco) for bloco in self.blocos)

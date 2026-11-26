@@ -23,6 +23,9 @@ class Bomba(Entidade):
             "normal": Animacao(self.carregar_quadros()[:3], 0.15),
             "boom": Animacao(self.carregar_quadros()[3:], 0.15)
         }
+    
+    def receber_dano(self, quantidade):
+        self._explodir()
         
     @classmethod
     def carregar_quadros(cls):
@@ -34,8 +37,9 @@ class Bomba(Entidade):
     def celula(self):
         return Colisor.obter_celula_grid(*self.retangulo.center)
     
-    def _explodir(self, fase):
-        fase.adicionar_entidade(Explosao(self, self.x, self.y, self.__arma.raio))
+    def _explodir(self):
+        self.__fase.remover_entidade(self)
+        self.__fase.adicionar_entidade(Explosao(self, self.x, self.y, self.__arma.raio))
         self.__arma.municao += 1
         
     def _get_tipo(self):
@@ -50,8 +54,7 @@ class Bomba(Entidade):
         self.__animacoes[self._get_tipo()].atualizar(dt)
         
         if (self.__delay <= 0):
-            fase.remover_entidade(self)
-            self._explodir(fase)
+            self._explodir()
 
     def desenhar(self, tela):
         quadro = self.__animacoes[self._get_tipo()].quadro_atual
