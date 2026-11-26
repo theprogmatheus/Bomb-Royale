@@ -2,6 +2,7 @@ from pathlib import Path
 
 TITULO = "Bomb Royale"
 FPS = 60
+DEBUG_MODE = True
 
 TAMANHO_CELULA = 56
 COLUNAS = 15

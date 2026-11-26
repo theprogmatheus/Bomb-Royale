@@ -1,10 +1,13 @@
 from abc import abstractmethod
 
+import pygame
+
 from .animacao import Animacao
-from .configuracoes import TAMANHO_COMBATENTE, TOLERANCIA_QUINA, VIDA_INICIAL
+from .configuracoes import TAMANHO_CELULA, TAMANHO_COMBATENTE, TOLERANCIA_QUINA, VIDA_INICIAL, DEBUG_MODE
 from .entidade import Entidade
 from .spritesheet import SpriteSheet
 from .arma_bomba import ArmaBomba
+from .colisor import Colisor
 
 
 class Combatente(Entidade):
@@ -116,6 +119,10 @@ class Combatente(Entidade):
                     deslize = min(passo, distancia) * sentido
                     return self._tentar_mover(lateral_x * deslize, lateral_y * deslize, fase)
         return False
+    
+    @property
+    def retangulo(self):
+        return pygame.Rect(self.x - (self.largura / 2), self.y - (self.altura / 2), self._largura, self._altura)
 
     def mover(self, direcao_x, direcao_y, dt, fase):
         self._atualizar_direcao_visual(direcao_x, direcao_y)
@@ -133,9 +140,23 @@ class Combatente(Entidade):
 
     def desenhar(self, tela):
         quadro = self._animacoes[self._direcao_visual].quadro_atual
-        posicao = quadro.get_rect(midbottom=self.retangulo.midbottom)
+        posicao = quadro.get_rect(center=(self.x, self.y)) # Centraliza o quadro na posição do combatente
         tela.blit(quadro, posicao)
-
+        
+        if (DEBUG_MODE):
+            coluna, linha = Colisor.obter_celula_grid(self.x, self.y)
+            
+            # Desenhar retângulo na celula em que o jogador está
+            pygame.draw.rect(tela, (255, 0, 0), (coluna * TAMANHO_CELULA, linha * TAMANHO_CELULA, TAMANHO_CELULA, TAMANHO_CELULA), 1) 
+            
+            # Desenha um retângulo ao redor do combatente para depuração
+            pygame.draw.rect(tela, (0, 255, 0), self.retangulo, 1)
+            
+            #Desenha um ponto no x e y exato do combatente para depuração
+            pygame.draw.circle(tela, (0, 0, 255), (int(self.x), int(self.y)), 3)
+            
+            print(f"X={self.x}, Y={self.y}, Coluna={coluna}, Linha={linha} Posicao={posicao}")
+            
     @abstractmethod
     def usar_habilidade(self, fase):
         pass

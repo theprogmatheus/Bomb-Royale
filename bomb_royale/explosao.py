@@ -27,10 +27,14 @@ class Explosao(Entidade):
             cls.QUADROS.append(sprite_sheet.obter_linha(0))
             cls.QUADROS.append(sprite_sheet.obter_linha(1))
             cls.QUADROS.append(sprite_sheet.obter_linha(2))
-            
-            
         return cls.QUADROS
-
+    
+    def __carregar_animacao(self):
+        # Coluna Par e Linha Par: Lugar para colocar bomba
+        
+        
+        pass
+    
     def atualizar(self, dt, fase):
         if (self.__fase is None):
             self.__fase = fase
@@ -49,16 +53,15 @@ class Explosao(Entidade):
             (coluna, linha-1): None
         }
 
-        for entidade in self.__fase.entidades():
+        for entidade in self.__fase.entidades:
             if (isinstance(entidade, Bloco) and not entidade.destrutivel):
                 coluna_e, linha_e = Colisor.obter_celula_grid(entidade.x, entidade.y)
                 if (coluna_e, linha_e) in lados:
                     lados[(coluna_e, linha_e)] = entidade
                     
+                            
 
         # Continuar a partir daqui...
 
 
 
-
-        pass
