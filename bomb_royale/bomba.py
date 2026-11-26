@@ -3,6 +3,7 @@ from .colisor import Colisor
 from .spritesheet import SpriteSheet
 from .animacao import Animacao
 from .configuracoes import SPRITE_ENTITY_BOMB
+from .explosao import Explosao
 
 
 class Bomba(Entidade):
@@ -34,6 +35,7 @@ class Bomba(Entidade):
         return Colisor.obter_celula_grid(*self.retangulo.center)
     
     def _explodir(self, fase):
+        fase.adicionar_entidade(Explosao(self, self.x, self.y, self.__arma.raio))
         self.__arma.municao += 1
         
     def _get_tipo(self):

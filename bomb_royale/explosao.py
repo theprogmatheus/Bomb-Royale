@@ -3,8 +3,15 @@ from .configuracoes import SPRITE_ENTITY_EXPLOSION
 from .spritesheet import SpriteSheet
 
 class Explosao(Entidade):
-    
+
+    LARGURA = 36
+    ALTURA = 36
     QUADROS = None
+
+    def __init__(self, bomba, x, y, raio):
+        super().__init__(x, y, self.LARGURA, self.ALTURA)
+        self.__bomba = bomba
+        self.__raio = raio
     
     @classmethod
     def carregar_quadros(cls):
