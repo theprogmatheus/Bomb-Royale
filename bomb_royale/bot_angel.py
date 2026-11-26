@@ -46,10 +46,6 @@ class BotAngel(InimigoBot):
             self._tempo_recarga_habilidade = self.COOLDOWN_HABILIDADE 
 
     def mover(self, direcao_x, direcao_y, dt, fase):
-        # TODO 9 (desafio): se o boost estiver ativo, ande mais rápido.
-        #   Dica: Combatente.mover usa self._velocidade * dt. Você pode
-        #   multiplicar o dt por MULTIPLICADOR_BOOST antes de chamar
-        #   super().mover(...). Se o boost não estiver ativo, só chame o super.
         if self._tempo_boost_velocidade == 0:
             return super().mover(direcao_x, direcao_y, dt, fase)
         else:
