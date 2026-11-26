@@ -27,6 +27,7 @@ class Jogo:
         self._fase.adicionar_entidade(self._jogador)
         self._fase.adicionar_entidade(self._criar_inimigo("builder", COLUNAS -2, LINHAS - 2))
         self._fase.adicionar_entidade(self._criar_inimigo("kicker", COLUNAS -2, 1))
+        self._fase.adicionar_entidade(self._criar_inimigo("jumper", 1, LINHAS - 2))
 
     @property
     def jogador(self):
