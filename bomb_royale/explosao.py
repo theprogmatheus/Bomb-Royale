@@ -2,7 +2,7 @@ from bomb_royale.animacao import Animacao
 
 from .entidade import Entidade
 from .configuracoes import SPRITE_ENTITY_EXPLOSION
-from .spritesheet import SpriteSheet
+from .spritesheet_explosao import SpritesheetExplosao
 from .colisor import Colisor
 from .bloco import Bloco
 
@@ -18,7 +18,8 @@ class Explosao(Entidade):
         super().__init__(x, y, self.LARGURA, self.ALTURA)
         self.__bomba = bomba
         self.__raio = raio
-        self.__celulas = [] # (coluna, linha, tipo, angulo)       
+        self.__celulas = [] # (coluna, linha, tipo, angulo)
+        self.__lifetime = 0.4
          
         quadros = self.carregar_quadros()
         self.__animacoes = {
@@ -37,7 +38,7 @@ class Explosao(Entidade):
     def carregar_quadros(cls):
         if (cls.QUADROS is None):
             
-            sprite_sheet = SpriteSheet(SPRITE_ENTITY_EXPLOSION, 3, 4)              
+            sprite_sheet = SpritesheetExplosao(SPRITE_ENTITY_EXPLOSION, 3, 4)              
             quadros_lado = sprite_sheet.obter_linha(1)
             quadros_ponta = sprite_sheet.obter_linha(2)
             
@@ -79,6 +80,14 @@ class Explosao(Entidade):
                         tipo = "ponta"
                     self.__celulas.append((coluna, linha, tipo, direcao))
         
+        for celula in self.__celulas:
+            coluna, linha, tipo, direcao = celula
+            animacao = self.__animacoes[(tipo, direcao)]
+            animacao.atualizar(dt)
+        
+        self.__lifetime -= dt
+        if (self.__lifetime <= 0):
+            fase.remover_entidade(self)
     
     def __calcular_direcao(self, coluna, linha, direcao, i):
         if direcao == 0:  # esquerda
