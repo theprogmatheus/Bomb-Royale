@@ -19,6 +19,7 @@ class Bomba(Entidade):
         self.__combatente = combatente
         self.__fase = fase
         self.__delay = delay
+        self.__colisao = False
         self.__animacoes = {
             "normal": Animacao(self.carregar_quadros()[:3], 0.15),
             "boom": Animacao(self.carregar_quadros()[3:], 0.15)
@@ -48,11 +49,20 @@ class Bomba(Entidade):
             tipo = "boom"
         return tipo
 
+    
+    def colide_com_entidade(self, entidade):
+        if not self.__colisao:
+            return False
+        return Colisor.verificar(entidade, self)
+
     def atualizar(self, dt, fase):
         self.__delay -= dt
-        
         self.__animacoes[self._get_tipo()].atualizar(dt)
-        
+
+        # Verifica se a colisão ainda não foi habilitada E se o jogador que plantou não está colidindo com a bomba.
+        if not self.__colisao and not Colisor.verificar(self.__combatente, self):
+            self.__colisao = True
+
         if (self.__delay <= 0):
             self._explodir()
 

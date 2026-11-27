@@ -46,6 +46,9 @@ class Entidade(ABC):
     def desativar(self):
         self._ativo = False
 
+    def colide_com_entidade(self, entidade):
+        return False
+
     @abstractmethod
     def atualizar(self, dt, fase):
         pass

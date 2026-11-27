@@ -91,7 +91,7 @@ class Combatente(Entidade):
     def _colide_deslocado(self, deslocamento_x, deslocamento_y, fase):
         self.x += deslocamento_x
         self.y += deslocamento_y
-        colidiu = fase.colide_com_bloco(self)
+        colidiu = fase.colide_com_entidade(self)
         self.x -= deslocamento_x
         self.y -= deslocamento_y
         return colidiu

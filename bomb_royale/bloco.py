@@ -2,6 +2,7 @@ import pygame
 
 from .configuracoes import COR_BLOCO, TAMANHO_CELULA
 from .entidade import Entidade
+from .colisor import Colisor
 
 
 class Bloco(Entidade):
@@ -16,6 +17,9 @@ class Bloco(Entidade):
     def destruir(self):
         if self._destrutivel:
             self.desativar()
+
+    def colide_com_entidade(self, entidade):
+        return Colisor.verificar(entidade, self)
 
     def atualizar(self, dt, fase):
         pass

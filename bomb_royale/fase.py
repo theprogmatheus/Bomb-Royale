@@ -68,8 +68,8 @@ class Fase:
                 entidades.append(entidade)
         return entidades
 
-    def colide_com_bloco(self, entidade):
-        return any(Colisor.verificar(entidade, bloco) for bloco in self.blocos)
+    def colide_com_entidade(self, entidade):
+        return any(bloco.colide_com_entidade(entidade) for bloco in self.entidades)
 
     def atualizar_fase(self, dt):
         for entidade in list(self._entidades):
