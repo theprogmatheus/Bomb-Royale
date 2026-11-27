@@ -10,6 +10,7 @@ from .configuracoes import (
     LINHAS,
     TAMANHO_CELULA,
 )
+from .canhao_pickup import CanhaoPickup
 
 
 class Fase:
@@ -17,6 +18,7 @@ class Fase:
         self._entidades = []
         self._fundo = self._carregar_fundo()
         self._criar_arena()
+        self._criar_canhao_pickup()
 
     @property
     def entidades(self):
@@ -80,3 +82,8 @@ class Fase:
         tela.blit(self._fundo, (0, 0))
         for entidade in sorted(self._entidades, key=lambda e: e.retangulo.bottom):
             entidade.desenhar(tela)
+
+    def _criar_canhao_pickup(self):
+        coluna, linha = COLUNAS//2, LINHAS//2
+        x, y = self.posicao_na_celula(coluna, linha, CanhaoPickup.TAMANHO, CanhaoPickup.TAMANHO)
+        self.adicionar_entidade(CanhaoPickup(x, y))
