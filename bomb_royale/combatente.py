@@ -37,6 +37,12 @@ class Combatente(Entidade):
     @property
     def vida(self):
         return self._vida
+
+    @vida.setter
+    def vida(self, nova_vida):
+        if nova_vida < 0:
+            raise ValueError("Vida não pode ser negativa.")
+        self._vida = nova_vida
     
     @property
     def arma(self):
@@ -67,7 +73,9 @@ class Combatente(Entidade):
         }
 
     def receber_dano(self, quantidade):
-        self._vida = max(0, self._vida - quantidade)
+        if quantidade < 0:
+            raise ValueError("Dano não pode ser negativo.")
+        self.vida = max(0, self._vida - quantidade)
         if self._vida == 0:
             self.desativar()
 
@@ -89,9 +97,10 @@ class Combatente(Entidade):
             animacao.reiniciar()
 
     def _colide_deslocado(self, deslocamento_x, deslocamento_y, fase):
+        bombas_sobrepostas = {b for b in fase.bombas if Colisor.verificar(self, b)}
         self.x += deslocamento_x
         self.y += deslocamento_y
-        colidiu = fase.colide_com_bloco(self)
+        colidiu = fase.colide_com_obstaculo(self, ignorar=bombas_sobrepostas)
         self.x -= deslocamento_x
         self.y -= deslocamento_y
         return colidiu

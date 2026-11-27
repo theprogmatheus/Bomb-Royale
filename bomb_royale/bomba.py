@@ -34,10 +34,17 @@ class Bomba(Entidade):
         return cls.QUADROS
    
     @property
+    def combatente(self):
+        return self.__combatente
+
+    @property
     def celula(self):
         return Colisor.obter_celula_grid(*self.retangulo.center)
     
     def _explodir(self):
+        if not self.ativo:
+            return
+        self.desativar()
         self.__fase.remover_entidade(self)
         self.__fase.adicionar_entidade(Explosao(self, self.x, self.y, self.__arma.raio))
         self.__arma.municao += 1
