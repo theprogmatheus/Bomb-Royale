@@ -74,21 +74,40 @@ class Explosao(Entidade):
             for direcao in range(4): # 0 = esquerda, 1 = cima, 2 = direita, 3 = baixo
                 for i in range(1, self.__raio + 1):
                     coluna, linha = self.__calcular_direcao(origem_coluna, origem_linha, direcao, i)
-                    entidades.update(fase.obter_entidades(coluna, linha))
                     if (Colisor.eh_parede(coluna, linha)):
                         # Corrige o anterior para ponta se não for o centro
                         if (i > 1):
                             self.__celulas[-1] = (self.__celulas[-1][0], self.__celulas[-1][1], "ponta", self.__celulas[-1][3]) 
                         break
-                
+
+                    entidades_celula = fase.obter_entidades(coluna, linha)
+                    entidades.update(entidades_celula)
+
+                    tem_bloco_destrutivel = any(
+                        isinstance(e, Bloco) and e.destrutivel for e in entidades_celula
+                    )
+                    if tem_bloco_destrutivel:
+                        self.__celulas.append((coluna, linha, "ponta", direcao))
+                        break
+
                     tipo = "lado"
                     if i == self.__raio:
                         tipo = "ponta"
                     self.__celulas.append((coluna, linha, tipo, direcao))
 
+            autor = getattr(self.__bomba, "combatente", None)
             for entidade in entidades:
-                if hasattr(entidade, "receber_dano"):
-                    entidade.receber_dano(1)
+                if not entidade.ativo or not hasattr(entidade, "receber_dano"):
+                    continue
+                entidade.receber_dano(1)
+                if autor is None or entidade is autor:
+                    continue
+                if isinstance(entidade, Bloco) and entidade.destrutivel:
+                    autor.pontuacao += 10
+                elif hasattr(entidade, "vida"):
+                    autor.pontuacao += 50
+                    if not entidade.ativo:
+                        autor.pontuacao += 100
                 
         for celula in self.__celulas:
             coluna, linha, tipo, direcao = celula

@@ -10,7 +10,6 @@ from .configuracoes import (
     FPS,
     LARGURA_TELA,
     LINHAS,
-    TAMANHO_COMBATENTE,
     TITULO,
 )
 from .fabrica_inimigos import FabricaInimigos
@@ -38,11 +37,15 @@ class Jogo:
         self._fase = Fase()
         self._jogador = self._criar_jogador()
         self._fase.adicionar_entidade(self._jogador)
-        # self._fase.adicionar_entidade(self._criar_inimigo())
         self._placar.registrar_combatente(self._jogador.nome)
-        inimigo = self._criar_inimigo()
-        self._fase.adicionar_entidade(inimigo)
-        self._placar.registrar_combatente(inimigo.nome)
+        inimigos = [
+            self._criar_inimigo("builder", COLUNAS - 2, LINHAS - 2),
+            self._criar_inimigo("kicker", COLUNAS - 2, 1),
+            self._criar_inimigo("jumper", 1, LINHAS - 2),
+        ]
+        for inimigo in inimigos:
+            self._fase.adicionar_entidade(inimigo)
+            self._placar.registrar_combatente(inimigo.nome)
         self._teve_rivais = len(self._combatentes_ativos()) > 1
 
     @property
@@ -61,9 +64,9 @@ class Jogo:
         x, y = Colisor.centro_da_celula(1, 1)
         return Jogador(x, y)
 
-    def _criar_inimigo(self):
-        x, y = Colisor.centro_da_celula(COLUNAS - 2, LINHAS - 2)
-        return FabricaInimigos.criar("builder", x, y)
+    def _criar_inimigo(self, tipo, coluna, linha):
+        x, y = Colisor.centro_da_celula(coluna, linha)
+        return FabricaInimigos.criar(tipo, x, y)
 
     def _processar_eventos(self):
         for evento in pygame.event.get():

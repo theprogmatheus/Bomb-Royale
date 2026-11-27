@@ -1,9 +1,13 @@
+import random
+
 import pygame
 
 from .bloco import Bloco
+from .bomba import Bomba
 from .colisor import Colisor
 from .configuracoes import (
     ALTURA_TELA,
+    CHANCE_BLOCO_DESTRUTIVEL,
     COLUNAS,
     IMAGEM_FUNDO,
     LARGURA_TELA,
@@ -26,7 +30,11 @@ class Fase:
 
     @property
     def blocos(self):
-        return [e for e in self._entidades if isinstance(e, Bloco)]
+        return [e for e in self._entidades if isinstance(e, Bloco) and e.ativo]
+
+    @property
+    def bombas(self):
+        return [e for e in self._entidades if isinstance(e, Bomba) and e.ativo]
 
     def _carregar_fundo(self):
         imagem = pygame.image.load(IMAGEM_FUNDO).convert()
@@ -40,15 +48,26 @@ class Fase:
     def _criar_arena(self):
         for linha in range(LINHAS):
             for coluna in range(COLUNAS):
+                x = coluna * TAMANHO_CELULA
+                y = linha * TAMANHO_CELULA
                 if self._eh_parede(coluna, linha):
-                    x = coluna * TAMANHO_CELULA
-                    y = linha * TAMANHO_CELULA
                     self.adicionar_entidade(Bloco(x, y))
+                elif not self._eh_zona_spawn(coluna, linha) and random.random() < CHANCE_BLOCO_DESTRUTIVEL:
+                    self.adicionar_entidade(Bloco(x, y, destrutivel=True))
 
     def _eh_parede(self, coluna, linha):
         borda = coluna in (0, COLUNAS - 1) or linha in (0, LINHAS - 1)
         pilar = coluna % 2 == 0 and linha % 2 == 0
         return borda or pilar
+
+    def _eh_zona_spawn(self, coluna, linha):
+        cantos_livres = {
+            (1, 1), (2, 1), (1, 2),
+            (COLUNAS - 2, 1), (COLUNAS - 3, 1), (COLUNAS - 2, 2),
+            (1, LINHAS - 2), (2, LINHAS - 2), (1, LINHAS - 3),
+            (COLUNAS - 2, LINHAS - 2), (COLUNAS - 3, LINHAS - 2), (COLUNAS - 2, LINHAS - 3),
+        }
+        return (coluna, linha) in cantos_livres
 
     def posicao_na_celula(self, coluna, linha, largura, altura):
         x = coluna * TAMANHO_CELULA + (TAMANHO_CELULA - largura) / 2
@@ -59,7 +78,8 @@ class Fase:
         self._entidades.append(entidade)
 
     def remover_entidade(self, entidade):
-        self._entidades.remove(entidade)
+        if entidade in self._entidades:
+            self._entidades.remove(entidade)
 
     # Função para obeter as entidades que ocupa a célula
     def obter_entidades(self, coluna, linha):
@@ -72,6 +92,15 @@ class Fase:
 
     def colide_com_bloco(self, entidade):
         return any(Colisor.verificar(entidade, bloco) for bloco in self.blocos)
+
+    def colide_com_obstaculo(self, entidade, ignorar=()):
+        if self.colide_com_bloco(entidade):
+            return True
+        return any(
+            Colisor.verificar(entidade, bomba)
+            for bomba in self.bombas
+            if bomba not in ignorar
+        )
 
     def atualizar_fase(self, dt):
         for entidade in list(self._entidades):
