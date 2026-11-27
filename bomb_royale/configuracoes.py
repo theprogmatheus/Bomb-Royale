@@ -2,6 +2,7 @@ from pathlib import Path
 
 TITULO = "Bomb Royale"
 FPS = 60
+DEBUG_MODE = False
 
 TAMANHO_CELULA = 56
 COLUNAS = 15
@@ -30,6 +31,8 @@ SPRITE_BOT_KICKER = PASTA_ASSETS / "player_yellow.jpeg"
 SPRITE_BOT_SMOKER = PASTA_ASSETS / "player_black.jpeg"
 SPRITE_BOT_JUMPER = PASTA_ASSETS / "player_white.jpeg"
 SPRITE_BOT_ANGEL = PASTA_ASSETS / "player_white.jpeg"
+SPRITE_ENTITY_BOMB = PASTA_ASSETS / "bomb.jpeg"
+SPRITE_ENTITY_EXPLOSION = PASTA_ASSETS / "explosion.jpeg"
 
 LINHAS_SPRITE = 3
 COLUNAS_SPRITE = 6
